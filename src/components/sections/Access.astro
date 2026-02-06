@@ -1,0 +1,90 @@
+﻿---
+import locations from "../../content/locations.json";
+import hours from "../../content/hours.json";
+
+const hourItems = Array.isArray(hours?.items) ? hours.items : [];
+const hourNotes = hours?.notes ?? "";
+---
+
+<section
+  class="section"
+  id="access"
+  style="position:relative; overflow:hidden;"
+>
+  <div class="bg-grain"></div>
+  <div class="container">
+    <h2 class="h2">{hours?.title ?? "アクセス"}</h2>
+
+    <div class="grid-2">
+      {
+        locations.map((l) => (
+          <div class="card">
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px;">
+              <div>
+                <div style="font-weight:700;">{l.name}</div>
+                <div class="small" style="margin-top:6px;">
+                  {l.address}
+                </div>
+                <div class="small" style="margin-top:6px;">
+                  TEL：
+                  <a
+                    href={`tel:${l.tel}`}
+                    style="text-decoration:underline; color:var(--fg);"
+                  >
+                    {l.tel}
+                  </a>
+                </div>
+              </div>
+
+              {l.mapEmbedUrl && (
+                <a
+                  class="btn"
+                  href={l.mapEmbedUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Google Mapsで開く
+                </a>
+              )}
+            </div>
+
+            {l.notes && (
+              <div class="small" style="margin-top:10px;">
+                {l.notes}
+              </div>
+            )}
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="card" style="margin-top:20px;">
+      <div style="font-weight:700;">営業時間</div>
+
+      {
+        hourItems.length ? (
+          <ul style="margin:10px 0 0 18px; color:var(--muted);">
+            {hourItems.map((x) => (
+              <li>
+                <span style="font-weight:600; color:var(--fg);">{x.label}</span>
+                ：{x.value}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div class="small" style="margin-top:10px;">
+            営業時間は準備中です。
+          </div>
+        )
+      }
+
+      {
+        hourNotes && (
+          <div class="small" style="margin-top:10px;">
+            {hourNotes}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</section>

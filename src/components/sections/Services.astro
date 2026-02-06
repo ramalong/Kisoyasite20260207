@@ -1,0 +1,66 @@
+﻿---
+import servicesData from "../../content/services.json";
+
+interface Service {
+  id: string;
+  title: string;
+  summary: string;
+  bullets: string[];
+  href: string;
+  image: string;
+}
+
+const services = servicesData as Service[];
+import "../../styles/sections/services.css";
+---
+
+<section class="section services-section js-services-section" id="services">
+  <div class="bg-grain"></div>
+
+  <div class="container services-container">
+    <!-- Header: Vertical Title (Leftmost) -->
+    <div class="services-header">
+      <h2 class="services-title">活動内容</h2>
+      <div class="services-decoration"></div>
+    </div>
+
+    <!-- Scrollable Text List (Static Grid) -->
+    <div class="services-list">
+      {
+        services.map((s) => (
+          <div class="service-block" id={`service-${s.id}`}>
+            <div class="service-row">
+              {/* Text Side */}
+              <div class="card service-content">
+                <div class="service-header">
+                  <div class="service-title">{s.title}</div>
+                  <a class="service-btn" href={s.href}>
+                    詳細 →
+                  </a>
+                </div>
+                <p class="service-summary">{s.summary}</p>
+                <ul class="service-bullets">
+                  {s.bullets.map((b) => (
+                    <li>{b}</li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Image Side */}
+              <div class="service-image">
+                <img
+                  src={
+                    s.image ||
+                    `https://placehold.co/600x400/3F9AAE/ffffff?text=${s.title}`
+                  }
+                  alt={s.title}
+                  loading="lazy"
+                />
+              </div>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
